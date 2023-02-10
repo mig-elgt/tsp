@@ -9,16 +9,10 @@ type Location struct {
 
 // Stop describes a customer's stop location.
 type Stop struct {
-	StopID              int
-	StopName            string
-	Demand              float32
-	Location            *Location
-	StartTimeWindow     float32
-	EndTimeWindow       float32
-	DurationServiceTime int64 // in minutes
-	ArrivalTime         float32
-	WaitingTime         float32
-	DepartureTime       float32
+	StopID   int
+	StopName string
+	Demand   float32
+	Location *Location
 }
 
 // TravelCost holds the main properties to describes a cost between two points.
@@ -32,13 +26,9 @@ type CostMatrix [][]TravelCost
 
 // Vehicle describes a vehicle data.
 type Vehicle struct {
-	VehicleID        string
-	Capacity         float32   `json:"capacity"`
-	StartLocation    *Location `json:"start_location"`
-	ShiftStart       string    `json:"shift_start"`
-	ShiftStartNumber float32   `json:"shift_start_number"`
-	ShiftEnd         string    `json:"shift_end"`
-	ShiftEndNumber   float32   `json:"shift_end_number"`
+	Name          string
+	Capacity      float32   `json:"capacity"`
+	StartLocation *Location `json:"start_location"`
 }
 
 // Clusters defines an abstraction data structure to store all data
