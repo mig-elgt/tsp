@@ -72,5 +72,25 @@ func (to twoOptMove) Evaluate(s *vns.Solution, k int) float32 {
 }
 
 func (to twoOpt) applyMove(tom *twoOptMove, s *vns.Solution) *vns.Solution {
-	panic("not impl")
+	// Create Routes
+	customers := make([]int, len(s.Customers))
+	copy(customers, s.Customers)
+	routes := make([]vns.Route, len(s.Routes))
+	copy(routes, s.Routes)
+	ra := &routes[tom.rA]
+	routeA := customers[ra.Start : ra.Start+ra.Size]
+	// Apply Move
+	for k, l := tom.i-ra.Start, tom.j-ra.Start; k < l; k, l = k+1, l-1 {
+		routeA[k], routeA[l] = routeA[l], routeA[k]
+	}
+	// Compute Route Costs
+	ra.Cost = vns.CalculateVehicleRouteCost(tom.rA, routeA, s.Cluster)
+	// Create Solution and calculate fitness value
+	ns := &vns.Solution{
+		Customers:    customers,
+		Routes:       routes,
+		FitnessValue: 1 / ra.Cost,
+	}
+	return ns
+
 }
