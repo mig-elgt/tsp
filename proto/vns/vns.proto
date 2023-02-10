@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "github.com/mig-elgt/tsp/proto/vns";
+
+package vns;
+
+service BasicVNSService {
+  rpc Optimize (OptimizeRequest) returns (OptimizeResponse) {}
+}
+
+message Stop {
+  int32 ID = 1;
+  double Lat = 2;
+  double Lng = 3;
+}
+
+message OptimizeRequest {
+  repeated Stop Stops = 1;
+  repeated double Matrix = 2;
+}
+
+message OptimizeResponse {
+  repeated Stop Stops = 1;
+}
