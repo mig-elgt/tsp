@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/kr/pretty"
 	"github.com/mig-elgt/tsp/vns"
 	"github.com/mig-elgt/tsp/vns/optimize"
 )
@@ -23,7 +24,9 @@ func main() {
 	vehicles := []vns.Vehicle{}
 	for i := 0; i < *fleeSize; i++ {
 		vehicles = append(vehicles, vns.Vehicle{
-			Capacity: 50, StartLocation: &vns.Location{Name: "Foo Bar", Lat: 22.153458, Lng: -100.977310},
+			Name:          "Foo Bar V",
+			Capacity:      50,
+			StartLocation: &vns.Location{Name: "Foo Bar", Lat: 22.153458, Lng: -100.977310},
 		})
 	}
 	cluster := &vns.Cluster{
@@ -36,7 +39,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not optimize route: %v", err)
 	}
-	fmt.Println(result)
+	pretty.Println(result)
 }
 
 type costMatrixJSON struct {
@@ -59,10 +62,12 @@ func getCostMatrix(fileName string) (vns.CostMatrix, error) {
 func getStops(stopsSize int) []vns.Stop {
 	stops := []vns.Stop{}
 	for i := 0; i < stopsSize; i++ {
-		stops = append(stops, vns.Stop{
-			Demand: 1,
-			StopID: i + 1,
-		})
+		stops = append(stops,
+			vns.Stop{
+				StopID:   i + 1,
+				StopName: fmt.Sprintf("%v", i+1),
+				Demand:   1,
+			})
 	}
 	return stops
 }

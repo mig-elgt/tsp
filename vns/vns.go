@@ -13,9 +13,13 @@ func BasicVNS(s *Solution, operator NeighborhoodOperator, shakers ...Shaker) *So
 	maxIter := 100
 	for i := 0; i < maxIter; i++ {
 		k := 0
+		// For each shaker computes LocalSearch algorithm to improve
+		// the current solution.
 		for k < kmax {
 			shakeSol := &Solution{}
 			shakers[k].Shake(currSol, shakeSol)
+			// LocalSerch implementation in order to get a local optima solution
+			// using a shaker and the neighboorhord operator.
 			localOptimumSol := LocalSearch(shakeSol, operator)
 			if localOptimumSol.Fitness() > currSol.Fitness() {
 				currSol = localOptimumSol

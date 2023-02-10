@@ -1,10 +1,14 @@
 package vns
 
-// LocalSearch algorithm moves from solution to solution in the space of candidate solutions (the search space) by applying local changes using a neighborhood operator. The algorithm finishes when it finds a local optima solution.
-// A local optima solution is found when the fitness value of the new solution is not better than the current solution.
+// LocalSearch algorithm moves from solution to solution in the space of candidate
+// solutions (the search space) by applying local changes using a neighborhood operator.
+//
+// The algorithm finishes when it finds a local optima solution. A local optima solution is
+// found when the fitness value of the new solution is not better than the current solution.
 func LocalSearch(s *Solution, opt NeighborhoodOperator) *Solution {
 	currSol := s
 	for {
+		// BestImprovement explores all posibles solutions given a S(x) solution and return the best one.
 		newSol := opt.BestImprovement(currSol)
 		if newSol.Fitness() <= currSol.Fitness() {
 			break

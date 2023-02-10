@@ -19,13 +19,11 @@ func NewSwap() *swap {
 func (swap) Shake(so *vns.Solution, res *vns.Solution) {
 	clusterCopy := make([]int, len(so.Customers))
 	copy(clusterCopy, so.Customers)
-	res = &vns.Solution{
-		Cluster:   so.Cluster,
-		Customers: clusterCopy,
-		Routes:    so.Routes,
-	}
-	i := randInt(0, len(so.Customers))
-	j := randInt(0, len(so.Customers))
+	res.Cluster = so.Cluster
+	res.Customers = clusterCopy
+	res.Routes = so.Routes
+	i := randInt(0, len(so.Customers)-1)
+	j := randInt(0, len(so.Customers)-1)
 	res.Customers[i], res.Customers[j] = res.Customers[j], res.Customers[i]
 }
 
