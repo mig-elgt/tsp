@@ -7,7 +7,7 @@ package vns
 
 // The method uses an initial solution (random, greedy), a Local Search neighborhood operator,
 // and a set of Shaker's operators that will be used to find new solutions with the Local Search algorithm.
-func BasicVNS(s *Solution, lsOpt NeighborhoodOperator, shakers ...Shaker) *Solution {
+func BasicVNS(s *Solution, operator NeighborhoodOperator, shakers ...Shaker) *Solution {
 	currSol := s
 	kmax := len(shakers)
 	maxIter := 100
@@ -16,7 +16,7 @@ func BasicVNS(s *Solution, lsOpt NeighborhoodOperator, shakers ...Shaker) *Solut
 		for k < kmax {
 			shakeSol := &Solution{}
 			shakers[k].Shake(currSol, shakeSol)
-			localOptimumSol := LocalSearch(shakeSol, lsOpt)
+			localOptimumSol := LocalSearch(shakeSol, operator)
 			if localOptimumSol.Fitness() > currSol.Fitness() {
 				currSol = localOptimumSol
 				k = 0

@@ -39,3 +39,14 @@ type Cluster struct {
 	Vehicles   []Vehicle
 	CostMatrix CostMatrix
 }
+
+type OptimalRoute struct {
+	Stops   []Stop
+	Vehicle Vehicle
+}
+
+// Optimizer describes an inteface to compute an algorithm
+// to solve the VRP problem.
+type Optimizer interface {
+	Optimize(cluster *Cluster) ([]*OptimalRoute, error)
+}
