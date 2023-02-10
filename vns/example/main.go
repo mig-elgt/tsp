@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"log"
 	"os"
 
@@ -14,25 +13,15 @@ import (
 
 func main() {
 	cmFileName := flag.String("file", "file", "file name of cost matrix json")
-	fleeSize := flag.Int("vehicles", 1, "fleet size")
 	flag.Parse()
 	cm, err := getCostMatrix(*cmFileName)
 	if err != nil {
 		log.Fatalf("could not get cost matrix %v: %v", *cmFileName, err)
 	}
 	stops := getStops(len(cm) - 1)
-	vehicles := []vns.Vehicle{}
-	for i := 0; i < *fleeSize; i++ {
-		vehicles = append(vehicles, vns.Vehicle{
-			Name:          "Foo Bar V",
-			Capacity:      50,
-			StartLocation: &vns.Location{Name: "Foo Bar", Lat: 22.153458, Lng: -100.977310},
-		})
-	}
 	cluster := &vns.Cluster{
 		CostMatrix: cm,
 		Stops:      stops,
-		Vehicles:   vehicles,
 	}
 	vns := optimize.NewVNS()
 	result, err := vns.Optimize(cluster)
@@ -64,9 +53,7 @@ func getStops(stopsSize int) []vns.Stop {
 	for i := 0; i < stopsSize; i++ {
 		stops = append(stops,
 			vns.Stop{
-				StopID:   i + 1,
-				StopName: fmt.Sprintf("%v", i+1),
-				Demand:   1,
+				StopID: i + 1,
 			})
 	}
 	return stops
