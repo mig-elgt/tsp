@@ -57,7 +57,7 @@ func (t twoOpt) generateMoves(s *vns.Solution) []SolutionMover {
 	return moves
 }
 
-func (to twoOptMove) Evaluate(s *vns.Solution, k int) float32 {
+func (to twoOptMove) Evaluate(s *vns.Solution, k int) float64 {
 	// Create Routes
 	ra := s.Routes[to.rA]
 	routeA := make([]int, ra.Size)

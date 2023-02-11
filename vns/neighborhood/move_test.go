@@ -15,19 +15,19 @@ func Test_EvaluteMovesAndReturnTheBestOne(t *testing.T) {
 			moves: []SolutionMover{
 				swapMoveMock{
 					cost: 10,
-					EvaluateFn: func(_ *vns.Solution, _ int) float32 {
+					EvaluateFn: func(_ *vns.Solution, _ int) float64 {
 						return 10
 					},
 				},
 				swapMoveMock{
 					cost: 20,
-					EvaluateFn: func(_ *vns.Solution, _ int) float32 {
+					EvaluateFn: func(_ *vns.Solution, _ int) float64 {
 						return 20
 					},
 				},
 				swapMoveMock{
 					cost: 70,
-					EvaluateFn: func(_ *vns.Solution, _ int) float32 {
+					EvaluateFn: func(_ *vns.Solution, _ int) float64 {
 						return 70
 					},
 				},
@@ -49,10 +49,10 @@ func Test_EvaluteMovesAndReturnTheBestOne(t *testing.T) {
 }
 
 type swapMoveMock struct {
-	cost       float32
-	EvaluateFn func(s *vns.Solution, k int) float32
+	cost       float64
+	EvaluateFn func(s *vns.Solution, k int) float64
 }
 
-func (sw swapMoveMock) Evaluate(s *vns.Solution, k int) float32 {
+func (sw swapMoveMock) Evaluate(s *vns.Solution, k int) float64 {
 	return sw.EvaluateFn(s, k)
 }

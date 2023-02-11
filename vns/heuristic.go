@@ -14,14 +14,14 @@ type Solution struct {
 	// Routes describes a set of vehicles routes.
 	Routes []Route
 	// Fitness values describes the solution quality
-	FitnessValue float32
+	FitnessValue float64
 }
 
 // Route stores the vehicle routes information
 type Route struct {
 	Start int
 	Size  int
-	Cost  float32
+	Cost  float64
 }
 
 // HeuristicConstructor describes the behavior to generate a greedy solutions.
@@ -56,7 +56,7 @@ type Shaker interface {
 }
 
 // Fitness computes the solution fitness value using the distance.
-func (s *Solution) Fitness() float32 {
+func (s *Solution) Fitness() float64 {
 	if s.FitnessValue == 0 {
 		r := &s.Routes[0]
 		route := s.Customers[r.Start:(r.Start + r.Size)]
@@ -65,7 +65,7 @@ func (s *Solution) Fitness() float32 {
 	return s.FitnessValue
 }
 
-func CalculateVehicleRouteCost(idx int, route []int, cluster *Cluster) float32 {
+func CalculateVehicleRouteCost(idx int, route []int, cluster *Cluster) float64 {
 	distance := cluster.CostMatrix[0][route[0]].Distance
 	for i := 0; i < len(route)-1; i++ {
 		a, b := route[i], route[i+1]

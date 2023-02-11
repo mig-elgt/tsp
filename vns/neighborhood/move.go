@@ -3,7 +3,7 @@ package neighborhood
 import "github.com/mig-elgt/tsp/vns"
 
 type SolutionMover interface {
-	Evaluate(s *vns.Solution, k int) float32
+	Evaluate(s *vns.Solution, k int) float64
 }
 
 func EvaluateMovesAndReturnTheBestOne(moves []SolutionMover, s *vns.Solution, k int) SolutionMover {
