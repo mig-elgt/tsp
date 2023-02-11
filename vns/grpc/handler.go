@@ -14,7 +14,7 @@ type handler struct {
 }
 
 func (h *handler) optimizeRoute(ctx context.Context, req *pb.OptimizeRequest) (*pb.OptimizeResponse, error) {
-	stops, err := h.optimizer.Optimize(nil)
+	stops, err := h.optimizer.Optimize(h.createCluster(req))
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, "stop locations empty")
 	}
