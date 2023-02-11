@@ -1,19 +1,20 @@
 syntax = "proto3";
 
-package table;
+option go_package = "github.com/mig-elgt/tsp/proto/table";
 
-// The greeting service definition.
-service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+service TableService {
+  rpc Fetch (FetchRequest) returns (FetchResponse) {}
 }
 
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message Stop {
+  double Lat = 1;
+  double Lng = 2;
 }
 
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
+message FetchRequest {
+  repeated Stop Stops = 1;
+}
+
+message FetchResponse {
+  repeated double Matrix = 1;
 }
