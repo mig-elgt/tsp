@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/kr/pretty"
 	"github.com/mig-elgt/tsp/table"
 	"github.com/pkg/errors"
 )
@@ -13,6 +14,12 @@ const osrmURLBase = "http://router.project-osrm.org"
 
 type osrm struct {
 	client table.HTTPClient
+}
+
+func New() *osrm {
+	return &osrm{
+		client: &http.Client{},
+	}
 }
 
 // Fetch fetches a cost distance matrix for a set of locations
@@ -47,6 +54,7 @@ func (o *osrm) Fetch(locations []*table.Location) ([][]*table.Cost, error) {
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return nil, errors.Wrap(err, "could not decode result body response")
 	}
+	pretty.Print(result)
 	// Convert result response to distance matrix object
 	matrix := [][]*table.Cost{}
 	for i := 0; i < len(locations); i++ {

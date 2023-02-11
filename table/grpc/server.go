@@ -18,13 +18,13 @@ type grpcServer struct {
 func NewAPI(t table.TableService) *grpc.Server {
 	rootServer := grpc.NewServer()
 	s := &grpcServer{
-		handler: handler{table: t},
+		handler: handler{svc: t},
 	}
 	pb.RegisterTableServiceServer(rootServer, s)
 	return rootServer
 }
 
 // Optimize optimizes a set of stops and returns an optima route.
-func (s *grpcServer) Optimize(ctx context.Context, req *pb.FetchRequest) (*pb.FetchResponse, error) {
+func (s *grpcServer) Fetch(ctx context.Context, req *pb.FetchRequest) (*pb.FetchResponse, error) {
 	return s.handler.fetchDistanceMatrix(ctx, req)
 }

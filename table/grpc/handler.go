@@ -5,16 +5,18 @@ import (
 
 	pb "github.com/mig-elgt/tsp/proto/table"
 	"github.com/mig-elgt/tsp/table"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type handler struct {
-	table table.TableService
+	svc table.TableService
 }
 
 func (h *handler) fetchDistanceMatrix(ctx context.Context, req *pb.FetchRequest) (*pb.FetchResponse, error) {
 	if len(req.Stops) == 0 {
+		logrus.Errorf("got empty stops list")
 		return nil, status.Error(codes.InvalidArgument, "stop locations is empty")
 	}
 	// Convert stops locations to table locations
@@ -26,8 +28,9 @@ func (h *handler) fetchDistanceMatrix(ctx context.Context, req *pb.FetchRequest)
 		})
 	}
 	// Fetch distance matrix from table service
-	matrix, err := h.table.Fetch(locations)
+	matrix, err := h.svc.Fetch(locations)
 	if err != nil {
+		logrus.Errorf("could get fetch distance matrix: %v", err)
 		return nil, status.Errorf(codes.Internal, "could not get distance matrix: %v", err)
 	}
 	// Convert distance matrix and stores distance values

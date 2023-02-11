@@ -73,7 +73,7 @@ func TestHandler_optimizeRoute(t *testing.T) {
 	for name, tc := range testCases {
 		t.Run(name, func(t *testing.T) {
 			h := &handler{
-				table: &mocks.TableServiceMock{
+				svc: &mocks.TableServiceMock{
 					FetchFn: tc.args.FetchFnMock,
 				},
 			}
