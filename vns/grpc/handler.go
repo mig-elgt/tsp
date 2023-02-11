@@ -17,7 +17,7 @@ func (h *handler) optimizeRoute(ctx context.Context, req *pb.OptimizeRequest) (*
 	cluster := h.createCluster(req)
 	stops, err := h.optimizer.Optimize(cluster)
 	if err != nil {
-		return nil, status.Error(codes.InvalidArgument, "stop locations empty")
+		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 	// Create stops response and calculate the total distance
 	var totalDistance float64
