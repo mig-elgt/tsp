@@ -4,6 +4,7 @@ import (
 	"context"
 
 	pb "github.com/mig-elgt/tsp/proto/vns"
+	"github.com/mig-elgt/tsp/vns"
 	"google.golang.org/grpc"
 )
 
@@ -12,15 +13,15 @@ type grpcServer struct {
 	handler
 }
 
-func NewApi() *grpc.Server {
+func NewApi(optimizer vns.Optimizer) *grpc.Server {
 	rootServer := grpc.NewServer()
 	s := &grpcServer{
-		handler: handler{},
+		handler: handler{optimizer},
 	}
 	pb.RegisterBasicVNSServiceServer(rootServer, s)
 	return rootServer
 }
 
-func (g *grpcServer) Optimize(_ context.Context, _ *pb.OptimizeRequest) (*pb.OptimizeResponse, error) {
-	panic("not implemented") // TODO: Implement
+func (s *grpcServer) Optimize(ctx context.Context, req *pb.OptimizeRequest) (*pb.OptimizeResponse, error) {
+	return s.handler.optimizeRoute(ctx, req)
 }
