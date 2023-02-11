@@ -18,6 +18,7 @@ func NewVNS() *vnsOptimizer {
 // Optimize computes a VNS algorithm given a Cluster pointer.
 // It returns an Optimal Solution.
 func (vnsOptimizer) Optimize(cluster *vns.Cluster) ([]vns.Stop, error) {
+
 	random := greedy.NewRandom(cluster)
 	// Create Initial Solution using a greedy method.
 	initSol := random.InitSolution()

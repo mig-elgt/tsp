@@ -14,19 +14,33 @@ type handler struct {
 }
 
 func (h *handler) optimizeRoute(ctx context.Context, req *pb.OptimizeRequest) (*pb.OptimizeResponse, error) {
-	stops, err := h.optimizer.Optimize(h.createCluster(req))
+	cluster := h.createCluster(req)
+	stops, err := h.optimizer.Optimize(cluster)
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, "stop locations empty")
 	}
+	// Create stops response and calculate the total distance
+	var totalDistance float64
+	s1, s2 := 0, stops[0].StopID
+	totalDistance += cluster.CostMatrix[s1][s2].Distance
 	var result []*pb.Stop
-	for _, stop := range stops {
+	for i := 0; i < len(stops); i++ {
+		stop := stops[i]
 		result = append(result, &pb.Stop{
 			ID:  int32(stop.StopID),
 			Lat: stop.Location.Lat,
 			Lng: stop.Location.Lng,
 		})
+		if i+1 < len(stops) {
+			s1 = s2
+			s2 = i + 1
+			totalDistance += cluster.CostMatrix[s1][s2].Distance
+		}
 	}
-	return &pb.OptimizeResponse{Stops: result}, nil
+	s1, s2 = stops[len(stops)-1].StopID, 0
+	totalDistance += cluster.CostMatrix[s1][s2].Distance
+
+	return &pb.OptimizeResponse{Stops: result, TotalDistance: totalDistance}, nil
 }
 
 func (h *handler) createCluster(req *pb.OptimizeRequest) *vns.Cluster {

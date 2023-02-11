@@ -15,7 +15,7 @@ type Stop struct {
 // TravelCost holds the main properties to describes a cost between two points.
 type TravelCost struct {
 	// Distance represents the distance between two stops in meters.
-	Distance float64
+	Distance float64 `json:"distance_in_meters"`
 }
 
 // CostMatrix describes a distance matrix between all stops.

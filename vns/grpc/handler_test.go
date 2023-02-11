@@ -47,6 +47,7 @@ func TestHandler_optimizeRoute(t *testing.T) {
 							ID: 3,
 						},
 					},
+					Matrix: []float64{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 				},
 				OptimizeFnMock: func(_ *vns.Cluster) ([]vns.Stop, error) {
 					return []vns.Stop{

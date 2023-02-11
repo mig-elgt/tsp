@@ -20,5 +20,6 @@ message OptimizeRequest {
 }
 
 message OptimizeResponse {
-  repeated Stop Stops = 1;
+  double TotalDistance = 1;
+  repeated Stop Stops = 2;
 }
