@@ -1,5 +1,7 @@
 package table
 
+import "net/http"
+
 // Locations represents a destination location
 type Location struct {
 	Lat float64 `json:"lat"`
@@ -18,4 +20,8 @@ type Cost struct {
 type TableService interface {
 	// Fetch fetches a cost distance matrix for a set of locations
 	Fetch(locations []*Location) ([][]*Cost, error)
+}
+
+type HTTPClient interface {
+	Do(req *http.Request) (*http.Response, error)
 }
