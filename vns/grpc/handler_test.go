@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func TestHandler_Fetch(t *testing.T) {
+func TestHandler_optimizeRoute(t *testing.T) {
 	type args struct {
 		OptimizeFnMock func(cluster *vns.Cluster) ([]vns.Stop, error)
 		request        *pb.OptimizeRequest
@@ -100,4 +100,58 @@ type OptimizerMock struct {
 
 func (op *OptimizerMock) Optimize(cluster *vns.Cluster) ([]vns.Stop, error) {
 	return op.OptimizeFn(cluster)
+}
+
+func TestHandler_createCluster(t *testing.T) {
+	type args struct {
+		request *pb.OptimizeRequest
+	}
+	testCases := map[string]struct {
+		args args
+		want *vns.Cluster
+	}{
+		"one stops": {
+			args: args{
+				request: &pb.OptimizeRequest{
+					Stops: []*pb.Stop{
+						{
+							ID:  1,
+							Lat: 100,
+							Lng: 100,
+						},
+					},
+					Matrix: []float64{0, 10, 5, 0},
+				},
+			},
+			want: &vns.Cluster{
+				Stops: []vns.Stop{
+					{
+						StopID: 1,
+						Location: &vns.Location{
+							Lat: 100,
+							Lng: 100,
+						},
+					},
+				},
+				CostMatrix: vns.CostMatrix{
+					{
+						{Distance: 0},
+						{Distance: 10},
+					},
+					{
+						{Distance: 5},
+						{Distance: 0},
+					},
+				},
+			},
+		},
+	}
+	for name, tc := range testCases {
+		t.Run(name, func(t *testing.T) {
+			h := &handler{}
+			if got := h.createCluster(tc.args.request); !reflect.DeepEqual(got, tc.want) {
+				t.Fatalf("createCluster(req) got %v; want %v", got, tc.want)
+			}
+		})
+	}
 }
