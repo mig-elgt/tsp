@@ -19,29 +19,29 @@ POST http://localhost:8080/api/v1/tsp
 
 ```json
 {
-	"stops": [
-		{
-			"name": "A",
-			"location": {
-				"lat": 52.517033,
-				"lng": 13.388798
-			}
-		},
-		{
-			"name": "B",
-			"location": {
-				"lat": 52.529432,
-				"lng": 13.39763
-			}
-		},
-		{
-			"name": "C",
-			"location": {
-				"lat": 52.523239,
-				"lng": 13.428554
-			}
-		}
-	]
+   "stops": [
+      {
+	     "name": "A",
+		 "location": {
+		    "lat": 52.517033,
+		    "lng": 13.388798
+		 }
+	  },
+	  {
+	     "name": "B",
+		 "location": {
+		    "lat": 52.529432,
+			"lng": 13.39763
+		 }
+	  },
+	  {
+	     "name": "C",
+		 "location": {
+		    "lat": 52.523239,
+			"lng": 13.428554
+		  }
+	  }
+   ]
 }
 ```
 
@@ -50,30 +50,27 @@ Response Status 200 (OK)
 ```json
 {
 	"route": [
-		{
-			"name": "C",
-			"stop_id": 3,
-			"location": {
-				"lat": 52.523239,
-				"lng": 13.428554
-			}
-		},
-		{
-			"name": "A",
-			"stop_id": 1,
-			"location": {
-				"lat": 52.517033,
-				"lng": 13.388798
-			}
-		},
-		{
-			"name": "B",
-			"stop_id": 2,
-			"location": {
-				"lat": 52.529432,
-				"lng": 13.39763
-			}
-		}
+	  {
+	     "name": "C",
+		 "location": {
+		    "lat": 52.523239,
+			"lng": 13.428554
+		  }
+	  },
+      {
+	     "name": "A",
+		 "location": {
+		    "lat": 52.517033,
+		    "lng": 13.388798
+		 }
+	  },
+	  {
+	     "name": "B",
+		 "location": {
+		    "lat": 52.529432,
+			"lng": 13.39763
+		 }
+	  }
 	],
 	"total_distance": 6635.8
 }
