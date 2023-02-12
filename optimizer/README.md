@@ -12,15 +12,12 @@ URL Base: http://localhost:8080 for local tests or use your own domain.
 
 ### TSP Endpoint
 
-```
 Endpoint: /api/v1/tsp
 
 Example
-
-Request:
 POST http://localhost:8080/api/v1/tsp
 
-Body
+```json
 {
 	"stops": [
 		{
@@ -46,11 +43,11 @@ Body
 		}
 	]
 }
+```
 
-Responses:
+Response Status 200 (OK)
 
-Status: 200 - Ok
-Body Respose
+```json
 {
 	"route": [
 		{
@@ -80,14 +77,16 @@ Body Respose
 	],
 	"total_distance": 6635.8
 }
+```
 
-Status: 500 - Internal Server Error
-Body Respose
+Response Status 500 (Internal Server Error)
+
+```json
 {
    "error": {
       "status": 500,
       "error": "INTERNAL",
-      "description": "Something went wrong...",
-   }
+      "description": "Something went wrong..."
+	}
 }
 ```
