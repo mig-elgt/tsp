@@ -25,7 +25,16 @@ func New(addr string) (*table, error) {
 }
 
 func (t *table) GetDistanceMatrix(stops []*optimizer.Stop) ([]float64, error) {
-	resp, err := t.client.Fetch(context.Background(), &pb.FetchRequest{})
+	var stopLocations []*pb.Stop
+	for _, s := range stops {
+		stopLocations = append(stopLocations, &pb.Stop{
+			Lat: s.Location.Lat,
+			Lng: s.Location.Lng,
+		})
+	}
+	resp, err := t.client.Fetch(context.Background(), &pb.FetchRequest{
+		Stops: stopLocations,
+	})
 	if err != nil {
 		logrus.Errorf("could not fetch distance matrix: %v", err)
 		return nil, errors.Wrapf(err, "could not fetch distance matrix")

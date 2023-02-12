@@ -36,7 +36,7 @@ func New(table optimizer.TableService, vns optimizer.VNSService) http.Handler {
 // 	]
 // }
 
-// TSP represents a handle for requests POST /api/v1/tsp
+// TSP represents a handle for the request POST /api/v1/tsp
 func (h handler) TSP(w http.ResponseWriter, r *http.Request) {
 	var request struct {
 		Stops []*optimizer.Stop `json:"stops"`
