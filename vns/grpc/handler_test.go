@@ -47,7 +47,7 @@ func TestHandler_optimizeRoute(t *testing.T) {
 							ID: 3,
 						},
 					},
-					Matrix: []float64{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+					Matrix: []float64{0, 0, 0, 0, 0, 0, 0, 0, 0},
 				},
 				OptimizeFnMock: func(_ *vns.Cluster) ([]vns.Stop, error) {
 					return []vns.Stop{
@@ -111,7 +111,7 @@ func TestHandler_createCluster(t *testing.T) {
 		args args
 		want *vns.Cluster
 	}{
-		"one stops": {
+		"two stops": {
 			args: args{
 				request: &pb.OptimizeRequest{
 					Stops: []*pb.Stop{
@@ -120,8 +120,13 @@ func TestHandler_createCluster(t *testing.T) {
 							Lat: 100,
 							Lng: 100,
 						},
+						{
+							ID:  2,
+							Lat: 200,
+							Lng: 200,
+						},
 					},
-					Matrix: []float64{0, 10, 5, 0},
+					Matrix: []float64{0, 10, 20, 0},
 				},
 			},
 			want: &vns.Cluster{
@@ -133,6 +138,13 @@ func TestHandler_createCluster(t *testing.T) {
 							Lng: 100,
 						},
 					},
+					{
+						StopID: 2,
+						Location: &vns.Location{
+							Lat: 200,
+							Lng: 200,
+						},
+					},
 				},
 				CostMatrix: vns.CostMatrix{
 					{
@@ -140,7 +152,7 @@ func TestHandler_createCluster(t *testing.T) {
 						{Distance: 10},
 					},
 					{
-						{Distance: 5},
+						{Distance: 20},
 						{Distance: 0},
 					},
 				},

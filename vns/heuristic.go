@@ -66,12 +66,11 @@ func (s *Solution) Fitness() float64 {
 }
 
 func CalculateVehicleRouteCost(idx int, route []int, cluster *Cluster) float64 {
-	distance := cluster.CostMatrix[0][route[0]].Distance
+	distance := cluster.CostMatrix[0][route[0]-1].Distance
 	for i := 0; i < len(route)-1; i++ {
-		a, b := route[i], route[i+1]
+		a, b := route[i]-1, route[i+1]-1
 		distance += cluster.CostMatrix[a][b].Distance
 	}
-	distance += cluster.CostMatrix[route[len(route)-1]][0].Distance
+	distance += cluster.CostMatrix[route[len(route)-1]-1][0].Distance
 	return 1 / distance
-
 }
