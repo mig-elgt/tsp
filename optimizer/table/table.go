@@ -7,10 +7,21 @@ import (
 	pb "github.com/mig-elgt/tsp/proto/table"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
 )
 
 type table struct {
 	client pb.TableServiceClient
+}
+
+func New(addr string) (*table, error) {
+	conn, err := grpc.Dial(addr, grpc.WithInsecure())
+	if err != nil {
+		return nil, errors.Wrap(err, "could not dial service connection")
+	}
+	return &table{
+		client: pb.NewTableServiceClient(conn),
+	}, nil
 }
 
 func (t *table) GetDistanceMatrix(stops []*optimizer.Stop) ([]float64, error) {

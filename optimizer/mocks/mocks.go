@@ -3,6 +3,7 @@ package mocks
 import (
 	"context"
 
+	"github.com/mig-elgt/tsp/optimizer"
 	pbt "github.com/mig-elgt/tsp/proto/table"
 	pbv "github.com/mig-elgt/tsp/proto/vns"
 	"google.golang.org/grpc"
@@ -22,4 +23,20 @@ type BasicVNSServiceClientMock struct {
 
 func (b *BasicVNSServiceClientMock) Optimize(ctx context.Context, in *pbv.OptimizeRequest, opts ...grpc.CallOption) (*pbv.OptimizeResponse, error) {
 	return b.OptimizeFn(ctx, in)
+}
+
+type TableServiceMock struct {
+	GetDistanceMatrixFn func(stops []*optimizer.Stop) ([]float64, error)
+}
+
+func (t *TableServiceMock) GetDistanceMatrix(stops []*optimizer.Stop) ([]float64, error) {
+	return t.GetDistanceMatrixFn(stops)
+}
+
+type VNSServiceMock struct {
+	OptimizeFn func(stops []*optimizer.Stop, matrix []float64) ([]*optimizer.Stop, float64, error)
+}
+
+func (v *VNSServiceMock) Optimize(stops []*optimizer.Stop, matrix []float64) ([]*optimizer.Stop, float64, error) {
+	return v.OptimizeFn(stops, matrix)
 }
