@@ -24,18 +24,6 @@ func New(table optimizer.TableService, vns optimizer.VNSService) http.Handler {
 	return r
 }
 
-// {
-// 	stops: [
-// 		{
-// 			name: "foo",
-//          location: {
-// 			   lat: 100,
-// 			   lng: -100
-//          }
-// 		}
-// 	]
-// }
-
 // TSP represents a handle for the request POST /api/v1/tsp
 func (h handler) TSP(w http.ResponseWriter, r *http.Request) {
 	var request struct {
@@ -48,6 +36,7 @@ func (h handler) TSP(w http.ResponseWriter, r *http.Request) {
 			WithError(codes.InvalidArgument, "Request bad format object").Send()
 		return
 	}
+
 	matrix, err := h.table.GetDistanceMatrix(request.Stops)
 	if err != nil {
 		logrus.Errorf("could not get distance matrix: %v", err)
@@ -56,6 +45,7 @@ func (h handler) TSP(w http.ResponseWriter, r *http.Request) {
 			WithError(codes.Internal, "Something went wrong...").Send()
 		return
 	}
+
 	stops, distance, err := h.vns.Optimize(request.Stops, matrix)
 	if err != nil {
 		logrus.Errorf("could not optimize route: %v", err)
@@ -64,6 +54,7 @@ func (h handler) TSP(w http.ResponseWriter, r *http.Request) {
 			WithError(codes.Internal, "Something went wrong...").Send()
 		return
 	}
+
 	type tspResponse struct {
 		Route         []*optimizer.Stop `json:"route"`
 		TotalDistance float64           `json:"total_distance"`

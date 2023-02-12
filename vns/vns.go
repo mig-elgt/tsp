@@ -10,7 +10,7 @@ package vns
 func BasicVNS(s *Solution, operator NeighborhoodOperator, shakers ...Shaker) *Solution {
 	currSol := s
 	kmax := len(shakers)
-	maxIter := 100
+	maxIter := 50
 	for i := 0; i < maxIter; i++ {
 		k := 0
 		// For each shaker computes LocalSearch algorithm to improve
