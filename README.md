@@ -13,4 +13,6 @@ We implemented a [Basic VNS algorithm](https://en.wikipedia.org/wiki/Variable_ne
 
 The Architecture is Based on Microservices in order to do Route Optimizations for a set of Stops. Each service solves one problem, Optimizer is the entry point to start an optimization and exposes an API REST to the client (POST /api/v1/tsp). The table is a gRPC Server to compute a Distance Matrix using [OSRM Project](https://project-osrm.org/) and VNS service exposes a gRPC service to perform a Metaheuristic algorithm it returns an Optimal Solution.
 
-![Architecture](./architecture.png)
+<p align="center">
+  <img src="./architecture.png" />
+</p>
